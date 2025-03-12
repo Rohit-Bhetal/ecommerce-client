@@ -15,9 +15,9 @@ import toast from 'react-hot-toast';
    items:[],
    addItem:(data:Product)=>{
       const currentItems = get().items;
-      const existingItem = currentItems.find((item)=>item.id===data.id);
+      const existingItem = currentItems.map((item)=>item.id==data.id);
       if(existingItem){
-         return toast("Item already in cart.");
+         toast(`Item already in cart.Added by +${existingItem.length}`);
       }
       set({
          items:[...get().items,data]
@@ -25,8 +25,13 @@ import toast from 'react-hot-toast';
       toast.success("Item added to cart.")
    },
    removeItem:(id:string)=>{
+      const item = [...get().items]
+      const index = item.findIndex((item)=>item.id===id)
+      if (index!==-1){
+         item.splice(index,1)
+      }
       set({
-         items:[...get().items.filter((item)=>item.id!== id)]
+         items:item
          
       })
       toast.success("Items removed from the cart.")
