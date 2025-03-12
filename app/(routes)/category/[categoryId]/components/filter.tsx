@@ -23,6 +23,7 @@ const Filter:FC<FilterProps> = ({
 
     const selectedValue = searchParams.get(valueKey);
     const onClick = (id:string)=>{
+        if (typeof window === "undefined") return;
         const current = qs.parse(searchParams.toString());
         const query = {
             ...current,

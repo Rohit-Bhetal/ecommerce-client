@@ -25,6 +25,7 @@ const Summary = () => {
     }
 
     useEffect(()=>{
+      if (typeof window === "undefined") return;
         if(searchParams.get("success")){
             toast.success("Payment completed.");
             removeAll();
