@@ -4,41 +4,34 @@ import Gallery from "@/components/gallery"
 import Info from "@/components/info"
 import ProductList from "@/components/product-lists"
 import Container from "@/components/ui/container"
-import { FC } from "react"
 
-interface ProductPageProps{
-    params:{
-        productId:string
-    }
-}
 
-const ProductPage:FC<ProductPageProps> = async({params}) => {
-    const product  = await getProduct(params.productId);
-    const suggestedProducts = await getProducts({
+type Params = Promise<{ productId: string }>
+const ProductPage = async ({ params }: { params: Params }) => {
+    const { productId } = await params;
+    const product = await getProduct(productId);
+    const suggestProducts = await getProducts({
         categoryId: product?.category?.id,
-        isFeatured: true
-    });
-
-    return (
-    
-    <div className="bg-white">
-      <Container>
-        <div className="px-4 py-10 sm:px-6 lg:px-8">
-            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-                <div>
-                    <Gallery images={product.images}/>
+        isFeatured: false
+    })
+    return ( 
+        <div className="bg-white">
+            <Container>
+                <div className="px-4 py-10 sm:px-6 lg:px-8">
+                    <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+                        {/* Gallery */}
+                        <Gallery images={product.images} />
+                        <div className="px-4 mt-0 sm:mt-16 sm:px-0 lg:mt-0">
+                            {/* Info */}
+                            <Info data={product} />
+                        </div>
+                    </div>
+                    <hr className="my-10"/>
+                    <ProductList title="Related Items" items={suggestProducts} />
                 </div>
-                <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
-                    <Info data={product}/>
-                </div>
-
-            </div>
-            <hr className="my-10" />
-            <ProductList title=" Related Items" items={suggestedProducts}/>
+            </Container>
         </div>
-      </Container>
-    </div>
-  )
+     );
 }
 
 export default ProductPage
