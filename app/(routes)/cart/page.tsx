@@ -5,10 +5,21 @@ import useCart from "@/hooks/use-cart";
 import { ShoppingCart } from "lucide-react";
 import CardItem from "./components/card-item";
 import Summary from "./components/summary";
+import { useEffect, useState } from "react";
 
 
 const CartPage = () => {
-    const cart = useCart();
+  const [isMounted, setIsMounted] = useState(false);
+  const cart = useCart();
+
+  useEffect(() => {
+      setIsMounted(true);
+  }, []);
+
+  if(!isMounted) {
+      return null
+  }
+
   return (
     <div className="bg-white">
       <Container>
