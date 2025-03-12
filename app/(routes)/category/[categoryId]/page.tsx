@@ -7,16 +7,17 @@ import Container from "@/components/ui/container"
 import Filter from "./components/filter"
 import NoResults from "@/components/ui/no-results"
 import ProductCard from "@/components/ui/product-card"
-import MobileFilter from "./components/mobile-filter"
+import MobileFilters from "./components/mobile-filter"
+
 export const revalidate = 0;
 
 type Params = Promise<{ categoryId: string }>
 type SearchParams = Promise<{ colorId: string, sizeId: string }>
 
-const CategoryPage = async ({ params }: { params: Params, searchParams: SearchParams }) => {
+const CategoryPage = async ({ params, searchParams }: { params: Params, searchParams: SearchParams }) => {
     const { categoryId } = await params;
-   // const { colorId, sizeId } = await searchParams;
-    const products = await getProducts({ isFeatured:true ,categoryId:categoryId })
+    const { colorId, sizeId } = await searchParams;
+    const products = await getProducts({ categoryId: categoryId, colorId: colorId, sizeId: sizeId ,isFeatured:true})
     const sizes = await getSizes();
     const colors = await getColors();
     const category = await getCategory(categoryId)
@@ -28,7 +29,7 @@ const CategoryPage = async ({ params }: { params: Params, searchParams: SearchPa
                 <div className="px-4 pb-24 sm:px-6 lg:px-8">
                     <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
                         {/*Add Mobile Filters*/}
-                        <MobileFilter sizes={sizes} colors={colors} />
+                        <MobileFilters sizes={sizes} colors={colors} />
                         {/*Add Computer Filters*/}
                         <div className="hidden lg:block">
                             <Filter
@@ -57,4 +58,4 @@ const CategoryPage = async ({ params }: { params: Params, searchParams: SearchPa
     );
 }
 
-export default CategoryPage
+export default CategoryPage;

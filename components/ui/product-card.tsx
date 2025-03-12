@@ -36,7 +36,7 @@ const ProductCard:FC<ProductCardtypes> = ({
       
         <div className="aspect-square rounded-xl bg-gray-100 relative">
             <Image src={data?.images?.[0]?.url} alt="Image" fill className="aspect-square object-cover rounded-md"/>
-            <div className=" flex opacity-0 gap-x-3 group-hover:opacity-100 transition justify-center absolute w-full px-6 bottom-5">
+            <div className="hidden sm:flex opacity-0 gap-x-3 group-hover:opacity-100 transition justify-center absolute w-full px-6 bottom-5">
                 <div className="flex  gap-x-6 justify-center">
                     <IconButton onClick={onPreview} icon={<Expand size={20} className="text-gray-600"/>}/>
                 </div>
